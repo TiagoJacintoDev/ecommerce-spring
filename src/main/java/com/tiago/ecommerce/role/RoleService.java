@@ -1,5 +1,6 @@
 package com.tiago.ecommerce.role;
 
+import com.tiago.ecommerce.utils.PrincipalUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -37,11 +38,15 @@ public class RoleService {
             return ResponseEntity.status(404).body(ROLE_NOT_FOUND);
         }
 
-        return ResponseEntity.ok(role);
+        return PrincipalUtils.isAdmin()
+                ? ResponseEntity.ok(role)
+                : ResponseEntity.ok(RoleToDto(role));
     }
 
-    public List<Role> getAll() {
-        return roleRepository.findAll();
+    public List<?> getAll() {
+        return PrincipalUtils.isAdmin()
+                ? roleRepository.findAll()
+                : roleRepository.findAll().stream().map(this::RoleToDto).toList();
     }
 
     public ResponseEntity<Object> update(UUID id, RoleDto updatedRoleDto) {
@@ -54,5 +59,9 @@ public class RoleService {
         BeanUtils.copyProperties(updatedRoleDto, role);
 
         return ResponseEntity.ok(roleRepository.save(role));
+    }
+
+    private RoleDto RoleToDto(Role role) {
+        return new RoleDto(role.getAuthority());
     }
 }
