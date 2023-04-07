@@ -1,5 +1,7 @@
 package com.tiago.ecommerce.role;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.tiago.ecommerce.user.User;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -12,6 +14,7 @@ import java.util.UUID;
 
 @Entity
 @Getter @Setter
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Role implements GrantedAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

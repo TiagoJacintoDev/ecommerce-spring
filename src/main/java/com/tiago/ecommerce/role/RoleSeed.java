@@ -24,13 +24,13 @@ public class RoleSeed implements CommandLineRunner {
 
         if(role_user == null) {
             Role newRole = new Role();
-            newRole.setName("role_user");
+            newRole.setName("ROLE_USER");
             roleRepository.save(newRole);
         }
 
         if(role_admin == null) {
             Role newRole = new Role();
-            newRole.setName("role_admin");
+            newRole.setName("ROLE_ADMIN");
             roleRepository.save(newRole);
         }
     }

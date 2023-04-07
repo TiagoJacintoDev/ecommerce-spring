@@ -1,5 +1,8 @@
 package com.tiago.ecommerce.user;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.tiago.ecommerce.role.Role;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -15,6 +18,7 @@ import java.util.UUID;
 @Entity
 @Getter @Setter
 @Table(name = "user_tb")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,6 +28,7 @@ public class User implements UserDetails {
     private String username;
 
     @Column(nullable = false)
+    @JsonIgnore
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
