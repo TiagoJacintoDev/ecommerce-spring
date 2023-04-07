@@ -16,6 +16,7 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
+    @Secured("ROLE_ADMIN")
     public Iterable<?> getUsers() {
         return userService.getAll();
     }
@@ -23,6 +24,11 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<Object> getUserById(@PathVariable UUID id) {
         return userService.getById(id);
+    }
+
+    @GetMapping("/username/{username}")
+    public ResponseEntity<Object> getUserByUsername(@PathVariable String username) {
+        return userService.getByUsername(username);
     }
 
     @PostMapping

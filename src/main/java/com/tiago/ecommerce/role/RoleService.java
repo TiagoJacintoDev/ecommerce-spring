@@ -1,6 +1,7 @@
 package com.tiago.ecommerce.role;
 
 import com.tiago.ecommerce.utils.PrincipalUtils;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +17,12 @@ public class RoleService {
 
     private final String ROLE_NOT_FOUND = "Role not found";
 
+    @Transactional
     public Role save(Role role) {
         return roleRepository.save(role);
     }
 
+    @Transactional
     public ResponseEntity<Object> delete(UUID id) {
         Role role = roleRepository.findById(id).orElse(null);
 
@@ -49,6 +52,7 @@ public class RoleService {
                 : roleRepository.findAll().stream().map(this::RoleToDto).toList();
     }
 
+    @Transactional
     public ResponseEntity<Object> update(UUID id, RoleDto updatedRoleDto) {
         Role role = roleRepository.findById(id).orElse(null);
 
