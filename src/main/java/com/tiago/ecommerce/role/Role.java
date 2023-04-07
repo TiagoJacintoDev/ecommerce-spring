@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,8 +20,8 @@ public class Role implements GrantedAuthority {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @ManyToMany(mappedBy = "roles")
-    private List<User> users;
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
+    private List<User> users = new ArrayList<>();
 
     @Override
     public String getAuthority() {
