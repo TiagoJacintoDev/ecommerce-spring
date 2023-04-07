@@ -39,4 +39,9 @@ public class UserController {
     public ResponseEntity<Object> deleteUser(@PathVariable UUID id) {
         return userService.delete(id);
     }
+
+    @PutMapping("/{userId}/role/{roleId}")
+    public ResponseEntity<Object> assignRoleToUser(@PathVariable UUID userId, @PathVariable UUID roleId) {
+        return userService.assignRoleToUser(userId, roleId);
+    }
 }
