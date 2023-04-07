@@ -21,4 +21,8 @@ public class PrincipalUtils {
                 .getAuthorities().stream()
                 .anyMatch(auth -> auth.getAuthority().equals("ROLE_USER"));
     }
+
+    public String getName() {
+        return SecurityContextHolder.getContext().getAuthentication().getName();
+    }
 }

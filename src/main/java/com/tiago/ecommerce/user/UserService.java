@@ -7,8 +7,6 @@ import com.tiago.ecommerce.utils.PrincipalUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.management.relation.RoleNotFoundException;
@@ -46,14 +44,14 @@ public class UserService {
                 : ResponseEntity.ok(userToDto(user));
     }
 
-    public ResponseEntity<Object> delete(UUID id) {
-        User user = userRepository.findById(id).orElse(null);
+    public ResponseEntity<Object> delete(String username) {
+        User user = userRepository.findByUsernameIgnoreCase(username).orElse(null);
 
         if(user == null) {
             return ResponseEntity.status(404).body(USER_NOT_FOUND);
         }
 
-        if(transactionalActionNotAllowed(id)) {
+        if(transactionalActionNotAllowed(username)) {
             return ResponseEntity.status(403).body("You don't have permission to delete this user");
         }
 
@@ -79,14 +77,14 @@ public class UserService {
                 : userRepository.findAll().stream().map(this::userToDto).toList();
     }
 
-    public ResponseEntity<Object> update(UUID id, UserDto updatedUserDto) {
-        User user = userRepository.findById(id).orElse(null);
+    public ResponseEntity<Object> update(String username, UserDto updatedUserDto) {
+        User user = userRepository.findByUsernameIgnoreCase(username).orElse(null);
 
         if(user == null) {
             return ResponseEntity.status(404).body(USER_NOT_FOUND);
         }
 
-        if(transactionalActionNotAllowed(id)) {
+        if(transactionalActionNotAllowed(username)) {
             return ResponseEntity.status(403).body("You don't have permission to update this user");
         }
 
@@ -120,16 +118,7 @@ public class UserService {
         return new UserDto(user.getUsername(), null);
     }
 
-    private boolean transactionalActionNotAllowed(UUID id) {
-        return id != getPrincipalId() && !PrincipalUtils.isAdmin();
-    }
-
-    private UUID getPrincipalId() {
-        String principalUsername = SecurityContextHolder.getContext().getAuthentication().getName();
-        User principal = userRepository.findByUsernameIgnoreCase(principalUsername).orElse(null);
-
-        return principal == null
-                ? null
-                : principal.getId();
+    private boolean transactionalActionNotAllowed(String username) {
+        return !username.equals(PrincipalUtils.getName()) && !PrincipalUtils.isAdmin();
     }
 }

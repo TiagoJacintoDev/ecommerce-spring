@@ -32,16 +32,16 @@ public class UserController {
         return userService.save(user);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{username}")
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
-    public ResponseEntity<Object> updateUser(@PathVariable UUID id, @RequestBody UserDto userDto) {
-        return userService.update(id, userDto);
+    public ResponseEntity<Object> updateUser(@PathVariable String username, @RequestBody UserDto userDto) {
+        return userService.update(username, userDto);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{username}")
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
-    public ResponseEntity<Object> deleteUser(@PathVariable UUID id) {
-        return userService.delete(id);
+    public ResponseEntity<Object> deleteUser(@PathVariable String username) {
+        return userService.delete(username);
     }
 
     @PutMapping("/{userId}/role/{roleId}")
