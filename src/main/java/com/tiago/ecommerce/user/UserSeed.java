@@ -29,29 +29,29 @@ public class UserSeed implements CommandLineRunner {
         User admin = userRepository.findByUsernameIgnoreCase("admin").orElse(null);
 
         if(user == null) {
-            Role user_role = roleRepository.findByNameIgnoreCase("role_user")
+            Role role_user = roleRepository.findByNameIgnoreCase("role_user")
                     .orElseThrow(RoleNotFoundException::new);
 
             User newUser = new User();
             newUser.setUsername("user");
             newUser.setPassword("user");
 
-            newUser.getRoles().add(user_role);
-            user_role.getUsers().add(newUser);
+            newUser.getRoles().add(role_user);
+            role_user.getUsers().add(newUser);
 
             userRepository.save(newUser);
         }
 
         if(admin == null) {
-            Role admin_role = roleRepository.findByNameIgnoreCase("role_admin")
+            Role role_admin = roleRepository.findByNameIgnoreCase("role_admin")
                     .orElseThrow(RoleNotFoundException::new);
 
             User newAdmin = new User();
             newAdmin.setUsername("admin");
             newAdmin.setPassword("admin");
 
-            newAdmin.getRoles().add(admin_role);
-            admin_role.getUsers().add(newAdmin);
+            newAdmin.getRoles().add(role_admin);
+            role_admin.getUsers().add(newAdmin);
 
             userRepository.save(newAdmin);
         }
