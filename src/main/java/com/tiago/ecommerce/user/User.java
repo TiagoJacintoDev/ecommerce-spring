@@ -1,5 +1,6 @@
 package com.tiago.ecommerce.user;
 
+import com.tiago.ecommerce.role.Role;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,6 +13,7 @@ import java.util.UUID;
 
 @Entity
 @Getter @Setter
+@Table(name = "user_tb")
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
