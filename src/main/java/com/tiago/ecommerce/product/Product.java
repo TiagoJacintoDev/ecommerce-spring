@@ -1,5 +1,7 @@
 package com.tiago.ecommerce.product;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.tiago.ecommerce.category.Category;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -11,6 +13,10 @@ import java.util.UUID;
 
 @Entity
 @Getter @Setter
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id"
+)
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
