@@ -39,4 +39,9 @@ public class CategoryController {
     public ResponseEntity<Object> deleteCategory(@PathVariable UUID id) {
         return categoryService.delete(id);
     }
+
+    @PutMapping("/{categoryId}/products/{productId}")
+    public ResponseEntity<Object> addProductToCategory(@PathVariable UUID categoryId, @PathVariable UUID productId) {
+        return categoryService.addProductToCategory(categoryId, productId);
+    }
 }

@@ -1,5 +1,6 @@
 package com.tiago.ecommerce.product;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +16,12 @@ public class ProductService {
 
     private final String PRODUCT_NOT_FOUND = "Product not found";
 
+    @Transactional
     public Product save(Product product) {
         return productRepository.save(product);
     }
 
+    @Transactional
     public ResponseEntity<Object> delete(UUID id) {
         Product product = productRepository.findById(id).orElse(null);
 
@@ -44,6 +47,7 @@ public class ProductService {
         return productRepository.findAll();
     }
 
+    @Transactional
     public ResponseEntity<Object> update(UUID id, ProductDto updatedProductDto) {
         Product product = productRepository.findById(id).orElse(null);
 
@@ -54,5 +58,9 @@ public class ProductService {
         BeanUtils.copyProperties(updatedProductDto, product);
 
         return ResponseEntity.ok(productRepository.save(product));
+    }
+
+    public List<Product> getAllByCategory(String categoryName) {
+        return productRepository.findByCategories_NameIgnoreCase(categoryName);
     }
 }
