@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/categorys")
+@RequestMapping("/api/categories")
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
     @GetMapping
-    public Iterable<Category> getCategorys() {
+    public Iterable<Category> getCategories() {
         return categoryService.getAll();
     }
 
