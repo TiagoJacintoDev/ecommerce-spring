@@ -44,7 +44,7 @@ public class CategoryController {
         return categoryService.delete(id);
     }
 
-    @PutMapping("/{categoryId}/products/{productId}")
+    @PutMapping("/{categoryId}/product/{productId}")
     @Secured("ROLE_ADMIN")
     public ResponseEntity<Object> addProductToCategory(@PathVariable UUID categoryId, @PathVariable UUID productId) {
         return categoryService.addProductToCategory(categoryId, productId);
