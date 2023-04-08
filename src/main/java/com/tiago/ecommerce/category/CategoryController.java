@@ -3,6 +3,7 @@ package com.tiago.ecommerce.category;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -24,6 +25,7 @@ public class CategoryController {
     }
 
     @PostMapping
+    @Secured("ROLE_ADMIN")
     public Category createCategory(@RequestBody CategoryDto categoryDto) {
         Category category = new Category();
         BeanUtils.copyProperties(categoryDto, category);
@@ -31,16 +33,19 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
+    @Secured("ROLE_ADMIN")
     public ResponseEntity<Object> updateCategory(@PathVariable UUID id, @RequestBody CategoryDto categoryDto) {
         return categoryService.update(id, categoryDto);
     }
 
     @DeleteMapping("/{id}")
+    @Secured("ROLE_ADMIN")
     public ResponseEntity<Object> deleteCategory(@PathVariable UUID id) {
         return categoryService.delete(id);
     }
 
     @PutMapping("/{categoryId}/products/{productId}")
+    @Secured("ROLE_ADMIN")
     public ResponseEntity<Object> addProductToCategory(@PathVariable UUID categoryId, @PathVariable UUID productId) {
         return categoryService.addProductToCategory(categoryId, productId);
     }
