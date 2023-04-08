@@ -2,12 +2,12 @@ package com.tiago.ecommerce.user;
 
 import com.tiago.ecommerce.role.Role;
 import com.tiago.ecommerce.role.RoleRepository;
-import com.tiago.ecommerce.utils.EncodingUtils;
 import com.tiago.ecommerce.utils.PrincipalUtils;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.management.relation.RoleNotFoundException;
@@ -21,6 +21,9 @@ public class UserService {
 
     @Autowired
     private RoleRepository roleRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     private final String USER_NOT_FOUND = "User not found";
 
@@ -39,7 +42,7 @@ public class UserService {
         userRepository.save(user);
         roleRepository.save(role_user);
 
-        user.setPassword(EncodingUtils.encode(user.getPassword()));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         return PrincipalUtils.isAdmin()
                 ? ResponseEntity.ok(user)
@@ -105,7 +108,7 @@ public class UserService {
         }
 
         BeanUtils.copyProperties(updatedUserDto, user);
-        user.setPassword(EncodingUtils.encode(user.getPassword()));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         User updatedUser = userRepository.save(user);
 

@@ -2,11 +2,11 @@ package com.tiago.ecommerce.user;
 
 import com.tiago.ecommerce.role.Role;
 import com.tiago.ecommerce.role.RoleRepository;
-import com.tiago.ecommerce.utils.EncodingUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.management.relation.RoleNotFoundException;
@@ -19,6 +19,9 @@ public class UserSeed implements CommandLineRunner {
 
     @Autowired
     private RoleRepository roleRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public void run(String... args) throws Exception {
@@ -35,7 +38,7 @@ public class UserSeed implements CommandLineRunner {
 
             User newUser = new User();
             newUser.setUsername("user");
-            newUser.setPassword(EncodingUtils.encode("user"));
+            newUser.setPassword(passwordEncoder.encode("user"));
 
             newUser.getRoles().add(role_user);
             role_user.getUsers().add(newUser);
@@ -49,7 +52,7 @@ public class UserSeed implements CommandLineRunner {
 
             User newAdmin = new User();
             newAdmin.setUsername("admin");
-            newAdmin.setPassword(EncodingUtils.encode("admin"));
+            newAdmin.setPassword(passwordEncoder.encode("admin"));
 
             newAdmin.getRoles().add(role_admin);
             role_admin.getUsers().add(newAdmin);
