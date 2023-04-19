@@ -1,6 +1,7 @@
 package com.tiago.ecommerce.product;
 
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 
+@AllArgsConstructor
 @Service
 public class ProductService {
     @Autowired
@@ -30,7 +32,7 @@ public class ProductService {
         }
 
         productRepository.delete(product);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("Product deleted successfully");
     }
 
     public ResponseEntity<Object> getById(UUID id) {
